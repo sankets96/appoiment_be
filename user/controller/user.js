@@ -1,11 +1,12 @@
 const UserService = require("../services/user.js");
-
+const msg = require("../../utils/message.js");
 const createUser = async (req, res) => {
   try {
-    const user = await UserService.createUser(req.body);
+    let {name,email}=req.body
+    const user = await UserService.add({name,email});
     res.status(201).json({
       success: true,
-      data: user
+      data: msg.USER_ADD_SucessFULLY
     });
   } catch (err) {
     res.status(400).json({
@@ -16,7 +17,7 @@ const createUser = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
-  const users = await UserService.getUsers();
+  const users = await UserService.getuser();
   res.json({
     success: true,
     data: users

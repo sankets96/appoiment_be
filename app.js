@@ -14,12 +14,12 @@ connectDB();
 
 // Middlewares
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
-app.use("/api/users", require("./user/user.route"));
+app.use("/users", require("./user/user.route"));
 
 // Server
 app.listen(PORT, () => {
