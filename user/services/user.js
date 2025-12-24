@@ -1,14 +1,15 @@
-const { User } = require("../../db/models/User.js");
+const { User } = require("../../db/models/user.js");
 
-const createUser = async (data) => {
-  return await User.create(data);
+const add = async (info) => {
+  return await new User(info).save();
 };
 
-const getUsers = async () => {
-  return await User.find({ isDeleted: false });
+const getuser = async (params={}) => {
+  const {condition={},projection = {},options={}} = params;
+  return await User.find(condition, projection, options);
 };
 
 module.exports = {
-  createUser,
-  getUsers
+  add,
+  getuser
 };
