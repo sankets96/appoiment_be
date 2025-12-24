@@ -1,0 +1,19 @@
+{
+  "name": "appoiment",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.0.2",
+    "moongoose": "^0.0.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "Database": {
+    "URL": "mongodb://127.0.0.1:27017/express_structure",
+    "Debug": true,
+    "dbName": "express_structure",
+    "SSL_CERT": "",
+    "Type": "Normal",
+    "dcDisableHooks": false
+  },
+  "App": {
+    "PORT": 8042,
+    "Miles": 2,
+    "PaginateLimit": 30,
+    "RequestExpireTime": 3,
+    "SiteName": "Precipto",
+    "SiteSortName": "Precipto",
+    "ApiHost": "http://localhost:8042",
+    "ApiBasePath": "/",
+    "ApiHostProtocol": "https"
+    
+  }
+}
