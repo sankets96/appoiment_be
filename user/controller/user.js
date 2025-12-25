@@ -1,4 +1,7 @@
 const UserService = require("../services/user.js");
+const PatientService = require("../../patient/services/patient.js");
+const DoctorService = require("../../doctor/services/doctor.js");
+const adminService = require("../../superadmin/services/admin.js");
 const bcrypt = require("bcryptjs");
 const msg = require("../../utils/message.js");
 
@@ -12,9 +15,24 @@ const REFRESH_TTL_SECONDS = 7 * 24 * 3600;
 const register = async(req, res)=> {
   const { email, password, role } = req.body;
   const hash = await bcrypt.hash(password, 12);
-  const user = await UserService.add({ email, password: hash, role });
-  res.status(201).json({ id: user._id });
+  let roleobj;
+  let role_model;
+  if(role =="patient"){
+    role_model="Patient"
+    roleobj = await PatientService.add({ role });
+  }
+  if(role =="doctor"){
+    role_model="Doctor"
+    roleobj = await DoctorService.add({ role });
+  }
+  if(role =="admin"){
+    role_model="Admin"
+    roleobj = await adminService.add({ role });
+  }
+  const user = await UserService.add({ email, password: hash, role:role,role_id: roleobj?._id ,role_model:role_model});
+  res.status(201).json({ message: msg.USER_REGISTERED_SUCCESS });
 }
+
 
 
 const login = async(req, res) => {
@@ -23,9 +41,9 @@ const login = async(req, res) => {
     let condition = { email };
     let params = { condition };
     const user = await UserService.getuser(params);
-    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+    if (!user) return res.status(401).json({ message: msg.USER_INVALID_CREDENTIALS });
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ message: "Invalid credentials" });
+    if (!match) return res.status(401).json({ message: msg.USER_INVALID_CREDENTIALS });
 
     const accessToken = signAccess({ sub: user._1d, role: user.role });
     const refreshToken = signRefresh({ sub: user._id });
@@ -51,7 +69,7 @@ const login = async(req, res) => {
 const refresh = async (req, res) => {
   const token = req.cookies.refreshToken || req.body.refreshToken;
   const valid = await isRefreshTokenValid(token);
-  if (!valid) return res.status(401).json({ message: "Invalid refresh token" });
+  if (!valid) return res.status(401).json({ message: msg.USER_INVALID_REFRESH_TOKEN });
 
   // rotate
   const newAccess = signAccess({ sub: valid.payload.sub });
