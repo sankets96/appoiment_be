@@ -39,7 +39,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use("/users", require("./user/user.route"));
-app.use("/auth", require("./auth/auth.route")); 
+//app.use("/auth", require("./auth/auth.route")); 
 
 // Server
 app.listen(PORT, () => {

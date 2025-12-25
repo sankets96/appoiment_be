@@ -10,34 +10,41 @@ const REFRESH_TTL_SECONDS = 7 * 24 * 3600;
 
 
 const register = async(req, res)=> {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
   const hash = await bcrypt.hash(password, 12);
-  const user = await User.create({ email, password: hash });
+  const user = await UserService.add({ email, password: hash, role });
   res.status(201).json({ id: user._id });
 }
 
 
 const login = async(req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) return res.status(401).json({ message: "Invalid credentials" });
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) return res.status(401).json({ message: "Invalid credentials" });
+  try {
+    const { email, password } = req.body;
+    let condition = { email };
+    let params = { condition };
+    const user = await UserService.getuser(params);
+    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(401).json({ message: "Invalid credentials" });
 
-  const accessToken = signAccess({ sub: user._id, role: user.role });
-  const refreshToken = signRefresh({ sub: user._id });
+    const accessToken = signAccess({ sub: user._1d, role: user.role });
+    const refreshToken = signRefresh({ sub: user._id });
 
-  await saveRefreshToken(user._id, refreshToken, REFRESH_TTL_SECONDS, {
-    ip: req.ip, userAgent: req.get("User-Agent")
-  });
-   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: REFRESH_TTL_SECONDS * 1000
-  });
+    await saveRefreshToken(user._id, refreshToken, REFRESH_TTL_SECONDS, {
+      ip: req.ip, userAgent: req.get("User-Agent")
+    });
 
-  res.json({ accessToken });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: REFRESH_TTL_SECONDS * 1000
+    });
+
+    res.json({ accessToken });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
 }
 
 

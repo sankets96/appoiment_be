@@ -6,7 +6,7 @@ const add = async (info) => {
 
 const getuser = async (params={}) => {
   const {condition={},projection = {},options={}} = params;
-  return await User.find(condition, projection, options);
+  return await User.findOne(condition, projection, options);
 };
 
 module.exports = {
