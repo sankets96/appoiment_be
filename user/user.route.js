@@ -164,6 +164,65 @@ router.post("/refresh", UserController.refresh);
     description: 'User created successfully'
   }
 */
-router.post("/logout", UserController.logout);
+router.post("/register/otp", UserController.logout);
 
+
+/*
+  #swagger.path = '/users/registerotp'
+  #swagger.tags = ['Users']
+  #swagger.summary = 'Logout User'
+  #swagger.description = 'API to logout a user'
+
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          required: ["role", "email"],
+          properties: {
+            role: { type: "string", example: "patient" },
+            email: { type: "string", example: "john@test.com" },
+            password: { type: "string", example: "strongpassword123"
+          }
+        }
+      }
+    }
+  }
+
+  #swagger.responses[201] = {
+    description: 'User created successfully'
+  }
+*/
+router.post("/registerotp", UserController.sendRegistrationOtp);
+
+
+/*
+  #swagger.path = '/users/registerverify'
+  #swagger.tags = ['Users']
+  #swagger.summary = 'Logout User'
+  #swagger.description = 'API to logout a user'
+
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          required: ["role", "email"],
+          properties: {
+            code: { type: "number", example: 123456 },
+            email: { type: "string", example: "john@test.com" },
+            
+          }
+        }
+      }
+    }
+  }
+
+  #swagger.responses[201] = {
+    description: 'User created successfully'
+  }
+*/
+router.post("/registerverify", UserController.verifyRegistrationOtp);
 module.exports = router;
