@@ -6,9 +6,10 @@ const connectDB = require("./db");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger/swagger");
 const cors = require("cors");
-const helmet = require("helmet"); // added
-const cookieParser = require("cookie-parser"); // added
-const rateLimit = require("express-rate-limit"); // added
+const helmet = require("helmet"); 
+const cookieParser = require("cookie-parser"); 
+const rateLimit = require("express-rate-limit");
+const { requireAuth } = require("./middlewares/auth");
 
 
 
@@ -33,7 +34,8 @@ const limiter = rateLimit({
   max: 100,
 });
 app.use("/auth", limiter);
-
+//auth middleware
+app.use(requireAuth);
 // Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

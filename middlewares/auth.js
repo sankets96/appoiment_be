@@ -1,25 +1,26 @@
 // middlewares/auth.js
-const { verifyAccess } = require("../auth/jwt.services"); // adjust path to your file
+const { verifyAccess } = require("../auth/jwt.services.js"); 
 
 function requireAuth(req, res, next) {
+  // Prefer token from `x-access-token` header (common in some clients)
+  // Fallbacks: Authorization: Bearer <token>, then cookies.accessToken
+  const xToken = req.header("x-access-token");
   const authHeader = req.header("Authorization") || "";
-  // support Bearer token and optional cookie fallback
-  const token = authHeader.startsWith("Bearer ")
-    ? authHeader.split(" ")[1]
-    : (req.cookies && req.cookies.accessToken);
+  const bearerToken = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+  const token = xToken || bearerToken || (req.cookies && req.cookies.accessToken);
 
-  if (!token) return res.status(401).json({ message: "No token" });
+  if (!token) return res.status(401).json({ message: "No token provided" });
 
   try {
     const payload = verifyAccess(token);
-    req.user = payload; // attach user info for downstream handlers
+    req.user = payload; 
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 }
 
-// optional: role-based guard
+//role-based Auth
 function requireRole(...roles) {
   return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role)) {
