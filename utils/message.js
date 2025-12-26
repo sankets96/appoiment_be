@@ -6,5 +6,8 @@ module.exports={
     DATA_FETCH_SUCCESS:"Data Fetched Successfully",
     USER_REGISTERED_SUCCESS:"User Registered Successfully",
     USER_INVALID_CREDENTIALS:"User Invalid Credentials",
-    USER_INVALID_REFRESH_TOKEN:"User Invalid Refresh Token"
+    USER_INVALID_REFRESH_TOKEN:"User Invalid Refresh Token",
+    EMAIL_ALREADY_EXISTS:"Email Already Exists",
+    OTP_EXPIRED:"OTP Expired",
+    INVALID_OTP:"Invalid OTP"
 };

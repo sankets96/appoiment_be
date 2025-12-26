@@ -15,9 +15,8 @@ const REFRESH_TTL_SECONDS = 7 * 24 * 3600;
 const sendRegistrationOtp = async (req, res) => {
   try {
     const { email, role, password } = req.body;
-    // prevent duplicate user email early
     const existing = await UserService.getuser({ condition: { email } });
-    if (existing) return res.status(400).json({ message: "Email already registered" });
+    if (existing) return res.status(400).json({ message: msg.EMAIL_ALREADY_EXISTS });
 
     const hashed = await bcrypt.hash(password, 12);
     await OtpService.createOtp(email, { password: hashed, role });

@@ -3,7 +3,7 @@ const env = require("../config/prod.json")
 
 const transporter = nodemailer.createTransport({
   host: env.SMTP.Host,
-  port: Number(env.SMTP.PORT || 587),
+  port: Number(env.SMTP.PORT),
   secure: env.SMTP.Secure === "true",
   auth: {
     user: env.SMTP.auth.user,
@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-async function sendMail({ to, subject, text, html }) {
+const sendMail = async({ to, subject, text, html }) => {
   try{
     return transporter.sendMail({ from: env.SMTP.FromEmail, to, subject, text, html });
   }catch(err){
@@ -19,10 +19,10 @@ async function sendMail({ to, subject, text, html }) {
   }
 }
 
-async function sendOtpEmail(to, code) {
+const sendOtpEmail = async(to, code) => {
   try{
   const subject = "Your Registration OTP";
-  const text = `Your OTP is ${code}. It expires in ${process.env.OTP_TTL_SECONDS || 600} seconds.`;
+  const text = `Your OTP is ${code}. It expires in ${env.SMTP.OTP_TTL_SECONDS} seconds.`;
   return sendMail({ to, subject, text });
   }catch(err){
     console.error("Error sending OTP email:", err);
