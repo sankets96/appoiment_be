@@ -34,8 +34,8 @@ const limiter = rateLimit({
   max: 100,
 });
 app.use("/auth", limiter);
-//auth middleware
-app.use(requireAuth);
+// //auth middleware
+// app.use(requireAuth);
 // Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

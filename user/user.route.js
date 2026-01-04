@@ -28,7 +28,7 @@ const { requireAuth, requireRole } = require("../middlewares/auth");
     description: 'User created successfully'
   }
 */
-router.post("/try", UserController.createUser);
+router.post("/try", requireAuth,UserController.createUser);
 
 /*
   #swagger.path = '/users'
@@ -40,38 +40,7 @@ router.post("/try", UserController.createUser);
     description: 'Users fetched successfully'
   }
 */
-router.get("/",requireAuth, UserController.getUsers);
-
-
-/*
-  #swagger.path = '/users/register'
-  #swagger.tags = ['Users']
-  #swagger.summary = 'Create a user'
-  #swagger.description = 'API to create a new user'
-
-  #swagger.requestBody = {
-    required: true,
-    content: {
-      "application/json": {
-        schema: {
-          type: "object",
-          required: ["name", "email"],
-          properties: {
-            name: { type: "string", example: "John Doe" },
-            email: { type: "string", example: "john@test.com" }
-          }
-        }
-      }
-    }
-  }
-
-  #swagger.responses[201] = {
-    description: 'User created successfully'
-  }
-*/
-router.post("/register", UserController.register);
-
-
+router.get("/", UserController.getUsers);
 
 
 
@@ -89,7 +58,7 @@ router.post("/register", UserController.register);
           type: "object",
           required: ["name", "email"],
           properties: {
-            name: { type: "string", example: "John Doe" },
+            password: { type: "string", example: "Pass@123" },
             email: { type: "string", example: "john@test.com" }
           }
         }

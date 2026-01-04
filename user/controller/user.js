@@ -12,21 +12,22 @@ const { saveRefreshToken, isRefreshTokenValid, revokeRefreshTokenByHash } = requ
 const REFRESH_TTL_SECONDS = 7 * 24 * 3600;
 
 
+//regiter with otp
 const sendRegistrationOtp = async (req, res) => {
   try {
-    const { email, role, password } = req.body;
+    const { email, role, password,name } = req.body;
     const existing = await UserService.getuser({ condition: { email } });
     if (existing) return res.status(400).json({ message: msg.EMAIL_ALREADY_EXISTS });
 
     const hashed = await bcrypt.hash(password, 12);
-    await OtpService.createOtp(email, { password: hashed, role });
+    await OtpService.createOtp(email,name, { password: hashed, role });
     res.status(200).json({ message: "OTP sent to email" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-
+//verify otp and register user
 const verifyRegistrationOtp = async (req, res) => {
   try {
     const { email, code } = req.body;
@@ -34,17 +35,18 @@ const verifyRegistrationOtp = async (req, res) => {
     if (!result.valid) return res.status(400).json({ message: result.message });
 
     const { password: hashedPassword, role } = result.payload;
+    const {name}=result
 
     let roleobj, role_model;
     if (role === "patient") {
       role_model = "Patient";
-      roleobj = await PatientService.add({ role });
+      roleobj = await PatientService.add({ role,email,name });
     } else if (role === "doctor") {
       role_model = "Doctor";
-      roleobj = await DoctorService.add({ role });
+      roleobj = await DoctorService.add({ role,email,name });
     } else if (role === "admin") {
       role_model = "Admin";
-      roleobj = await adminService.add({ role });
+      roleobj = await adminService.add({ role,email ,name});
     }
 
     const user = await UserService.add({
@@ -52,7 +54,8 @@ const verifyRegistrationOtp = async (req, res) => {
       password: hashedPassword,
       role,
       role_id: roleobj?._id,
-      role_model
+      role_model,
+      name:name
     });
 
     res.status(201).json({ message: msg.USER_REGISTERED_SUCCESS });
@@ -60,40 +63,6 @@ const verifyRegistrationOtp = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-const register = async(req, res)=> {
-  const { email, password, role } = req.body;
-  const hash = await bcrypt.hash(password, 12);
-  let roleobj;
-  let role_model;
-  if(role =="patient"){
-    role_model="Patient"
-    roleobj = await PatientService.add({ role });
-  }
-  if(role =="doctor"){
-    role_model="Doctor"
-    roleobj = await DoctorService.add({ role });
-  }
-  if(role =="admin"){
-    role_model="Admin"
-    roleobj = await adminService.add({ role });
-  }
-  const user = await UserService.add({ email, password: hash, role:role,role_id: roleobj?._id ,role_model:role_model});
-  res.status(201).json({ message: msg.USER_REGISTERED_SUCCESS });
-}
-
-
 
 const login = async(req, res) => {
   try {
@@ -105,10 +74,10 @@ const login = async(req, res) => {
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ message: msg.USER_INVALID_CREDENTIALS });
 
-    const accessToken = signAccess({ sub: user._1d, role: user.role });
-    const refreshToken = signRefresh({ sub: user._id });
+    const accessToken = signAccess({ sub: user._id, email: user.email, role: user.role });
+    const refreshToken = signRefresh({ sub: user._id,email: user.email, role: user.role });
 
-    await saveRefreshToken(user._id, refreshToken, REFRESH_TTL_SECONDS, {
+    await saveRefreshToken(user._id,user.email, refreshToken, REFRESH_TTL_SECONDS, {
       ip: req.ip, userAgent: req.get("User-Agent")
     });
 
@@ -188,7 +157,6 @@ module.exports = {
   logout,
   refresh,
   login,
-  register,
   sendRegistrationOtp,
   verifyRegistrationOtp
 };

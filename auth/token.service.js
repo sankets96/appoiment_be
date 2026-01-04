@@ -6,10 +6,11 @@ function hashToken(token) {
   return crypto.createHash("sha256").update(token).digest("hex");
 }
 
-async function saveRefreshToken(userId, token, ttlSeconds, meta = {}) {
+async function saveRefreshToken(userId, email, token, ttlSeconds, meta = {}) {
   const expiresAt = new Date(Date.now() + ttlSeconds * 1000);
   const doc = await RefreshToken.create({
     user: userId,
+    email: email,
     tokenHash: hashToken(token),
     expiresAt,
     ...meta,

@@ -8,10 +8,11 @@ function generateCode() {
   return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit
 }
 
-const createOtp=async(email, payload = {}) => {
+const createOtp=async(email, name, payload = {}) => {
   const code = generateCode();
   const otp = await Otp.create({
     email,
+    name,
     code,
     payload,
     expiresAt: new Date(Date.now() + OTP_TTL_SECONDS * 1000)

@@ -4,7 +4,7 @@
   "main": "app.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "node app.js"
+    "doc": "node app.js"
   },
   "author": "Sanket Suryavanshi",
   "license": "ISC",
