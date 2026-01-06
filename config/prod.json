@@ -16,7 +16,11 @@
     "SiteSortName": "Precipto",
     "ApiHost": "http://localhost:8042",
     "ApiBasePath": "/",
-    "ApiHostProtocol": "https"
+    "ApiHostProtocol": "https",
+    "secretkey":"Ilovemyindianation",
+    "refreshSecretkey":"Ilovemyindianationrefresh",
+    "accessExp": "15m",
+    "refreshExp": "7d"
   },
   "SMTP": {
     "From": "Web",

@@ -2,6 +2,7 @@
 const router = require("express").Router();
 const UserController = require("../user/controller/user");
 const { requireAuth, requireRole } = require("../middlewares/auth");
+const limiter = require("../middlewares/ratelimiter");
 /*
   #swagger.path = '/users/try'
   #swagger.tags = ['Users']
@@ -70,7 +71,7 @@ router.get("/", UserController.getUsers);
     description: 'User created successfully'
   }
 */
-router.post("/login", UserController.login);
+router.post("/login", limiter,sUserController.login);
 
 
 
@@ -163,7 +164,7 @@ router.post("/register/otp", UserController.logout);
     description: 'User created successfully'
   }
 */
-router.post("/registerotp", UserController.sendRegistrationOtp);
+router.post("/registerotp",limiter, UserController.sendRegistrationOtp);
 
 
 /*
@@ -193,5 +194,5 @@ router.post("/registerotp", UserController.sendRegistrationOtp);
     description: 'User created successfully'
   }
 */
-router.post("/registerverify", UserController.verifyRegistrationOtp);
+router.post("/registerverify", limiter,UserController.verifyRegistrationOtp);
 module.exports = router;
