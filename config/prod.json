@@ -16,7 +16,22 @@
     "SiteSortName": "Precipto",
     "ApiHost": "http://localhost:8042",
     "ApiBasePath": "/",
-    "ApiHostProtocol": "https"
-    
+    "ApiHostProtocol": "https",
+    "secretkey":"Ilovemyindianation",
+    "refreshSecretkey":"Ilovemyindianationrefresh",
+    "accessExp": "15m",
+    "refreshExp": "7d"
+  },
+  "SMTP": {
+    "From": "Web",
+    "FromEmail": "sanketsuryavanshi90@gmail.com",
+    "PORT": 587,
+    "Secure": false,
+    "Host": "smtp.gmail.com",
+    "OTP_TTL_SECONDS": 600,
+    "auth": {
+      "user": "sanketsuryavanshi90@gmail.com",
+      "Password": "iynhdeueilqhcubm"
+    }
   }
 }
