@@ -9,5 +9,6 @@ module.exports={
     USER_INVALID_REFRESH_TOKEN:"User Invalid Refresh Token",
     EMAIL_ALREADY_EXISTS:"Email Already Exists",
     OTP_EXPIRED:"OTP Expired",
-    INVALID_OTP:"Invalid OTP"
+    INVALID_OTP:"Invalid OTP",
+    JWT_ACCESS_SECRET_MUST_BE_SET:"JWT access secret must be set"
 };
