@@ -10,5 +10,5 @@ module.exports={
     EMAIL_ALREADY_EXISTS:"Email Already Exists",
     OTP_EXPIRED:"OTP Expired",
     INVALID_OTP:"Invalid OTP",
-    JWT_ACCESS_SECRET_MUST_BE_SET:"JWT access secret must be set"
+    JWT_ACCESS_SECRET_MUST_BE_SET:"JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be set"
 };

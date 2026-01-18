@@ -3,6 +3,7 @@ const router = require("express").Router();
 const UserController = require("../user/controller/user");
 const { requireAuth, requireRole } = require("../middlewares/auth");
 const limiter = require("../middlewares/ratelimiter");
+
 /*
   #swagger.path = '/users/try'
   #swagger.tags = ['Users']
