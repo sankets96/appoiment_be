@@ -20,7 +20,8 @@
     "secretkey":"Ilovemyindianation",
     "refreshSecretkey":"Ilovemyindianationrefresh",
     "accessExp": "15m",
-    "refreshExp": "7d"
+    "refreshExp": "7d",
+    "CORS_ORIGIN":"http://localhost:5173"
     
   },
   "SMTP": {

@@ -30,8 +30,8 @@ const sendRegistrationOtp = async (req, res) => {
 //verify otp and register user
 const verifyRegistrationOtp = async (req, res) => {
   try {
-    const { email, code } = req.body;
-    const result = await OtpService.verifyOtp(email, code);
+    const { email, sendOtp } = req.body;
+    const result = await OtpService.verifyOtp(email, sendOtp);
     if (!result.valid) return res.status(400).json({ message: result.message });
 
     const { password: hashedPassword, role } = result.payload;
@@ -81,14 +81,17 @@ const login = async(req, res) => {
       ip: req.ip, userAgent: req.get("User-Agent")
     });
 
-    res.cookie("refreshToken", refreshToken, {
+    return res.cookie("token", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: REFRESH_TTL_SECONDS * 1000
-    });
+      secure: false,          // MUST be false for localhost
+      sameSite: "lax",        // IMPORTANT
+      maxAge: 24 * 60 * 60 * 1000
+    })
+    .send({
+      data:user,
+      status:true
 
-    res.json({ accessToken });
+    })
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

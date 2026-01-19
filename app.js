@@ -8,8 +8,8 @@ const swaggerSpec = require("./swagger/swagger");
 const cors = require("cors");
 const helmet = require("helmet"); 
 const cookieParser = require("cookie-parser"); 
-const rateLimit = require("express-rate-limit");
-const { requireAuth } = require("./middlewares/auth");
+
+
 
 
 
@@ -26,16 +26,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-  origin: ""/* set allowed origins or config.App.CORS_ORIGIN */,
+  origin: config.App.CORS_ORIGIN,
   credentials: true
 }));
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
-app.use("/auth", limiter);
-// //auth middleware
-// app.use(requireAuth);
+
 // Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
