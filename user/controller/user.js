@@ -15,7 +15,7 @@ const REFRESH_TTL_SECONDS = 7 * 24 * 3600;
 //regiter with otp
 const sendRegistrationOtp = async (req, res) => {
   try {
-    const { email, role, password,name } = req.body;
+    const { email, role, password,name,blood,dob, } = req.body;
     const existing = await UserService.getuser({ condition: { email } });
     if (existing) return res.status(400).json({ message: msg.EMAIL_ALREADY_EXISTS });
 
@@ -30,12 +30,12 @@ const sendRegistrationOtp = async (req, res) => {
 //verify otp and register user
 const verifyRegistrationOtp = async (req, res) => {
   try {
-    const { email, sendOtp } = req.body;
-    const result = await OtpService.verifyOtp(email, sendOtp);
+    const { email, code } = req.body;
+    const result = await OtpService.verifyOtp(email, code);
     if (!result.valid) return res.status(400).json({ message: result.message });
 
-    const { password: hashedPassword, role } = result.payload;
-    const {name}=result
+    const { password: hashedPassword, role,name,blood,dob } = result.payload;
+    
 
     let roleobj, role_model;
     if (role === "patient") {
