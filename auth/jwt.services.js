@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const env =require('../../config/prod.json');
+const env =require('../config/prod.json');
 const msg = require("../utils/message");
 
 const accessSecret = env.App.secretkey;
