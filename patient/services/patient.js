@@ -9,7 +9,18 @@ const getpatient = async (params={}) => {
   return await Patient.findOne(condition, projection, options);
 };
 
+const get = async (params = {}) => {
+  const { condition = {}, projection = {}, options = {} } = params;
+  return await Patient.findOne(condition, projection, options);
+};
+
+const update = async (id, updates) => {
+  return await Patient.findByIdAndUpdate(id, updates, { new: true });
+};
+
 module.exports = {
   add,
-  getpatient
+  getpatient,
+  get,
+  update
 };

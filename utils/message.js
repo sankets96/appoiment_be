@@ -10,5 +10,18 @@ module.exports={
     EMAIL_ALREADY_EXISTS:"Email Already Exists",
     OTP_EXPIRED:"OTP Expired",
     INVALID_OTP:"Invalid OTP",
-    JWT_ACCESS_SECRET_MUST_BE_SET:"JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be set"
+    JWT_ACCESS_SECRET_MUST_BE_SET:"JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be set",
+    OTP_SENT_TO_EMAIL:"OTP sent to email",
+    DATA_UPDATE_SUCESSFULLY:"Data Updated successfully",
+    PASSWORD_RESET_SUCCESS:"Password reset successfully",
+    PROFILE_PHOTO_DELETE_SUCESSFULLY:"Profile Photo Deleted Successfully",
+    PROFILE_PHOTO_UPLOADED_SUCESSFULLY:"Profile Photo Uploaded Successfully",
+    FAMILY_MEMBER_ADDED:"Family member added successfully",
+    FAMILY_MEMBER_NOT_FOUND:"Family member not found",
+    FAMILY_MEMBER_DELETED:"Family member removed successfully",
+    FAMILY_MEMBER_UPDATED:"Family member updated successfully",
+    FAMILY_MEMBER_FORBIDDEN:"You are not authorized to access this family member",
+    FAMILY_MEMBER_DOB_FUTURE:"Date of birth cannot be in the future",
+    FAMILY_MEMBER_STATUS_DEACTIVATE:"Family member must remain active. Deactivation is not allowed.",
+    FAMILY_MEMBER_DUPLICATE:"A family member with the same name and relation already exists"
 };

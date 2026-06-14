@@ -9,7 +9,18 @@ const getadmin = async (params={}) => {
   return await Admin.findOne(condition, projection, options);
 };
 
+const get = async (params = {}) => {
+  const { condition = {}, projection = {}, options = {} } = params;
+  return await Admin.findOne(condition, projection, options);
+};
+
+const update = async (id, updates) => {
+  return await Admin.findByIdAndUpdate(id, updates, { new: true });
+};
+
 module.exports = {
   add,
-  getadmin
+  getadmin,
+  get,
+  update
 };

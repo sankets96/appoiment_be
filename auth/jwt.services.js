@@ -1,12 +1,14 @@
 const jwt = require("jsonwebtoken");
+const env =require('../config/prod.json');
+const msg = require("../utils/message");
 
-const accessSecret = process.env.JWT_ACCESS_SECRET;
-const refreshSecret = process.env.JWT_REFRESH_SECRET;
-const accessExp = process.env.JWT_ACCESS_EXPIRES || "15m";
-const refreshExp = process.env.JWT_REFRESH_EXPIRES || "7d";
+const accessSecret = env.App.secretkey;
+const refreshSecret = env.App.refreshSecretkey;
+const accessExp =  env.App.accessExp || "15m";
+const refreshExp = env.App.refreshExp || "7d";
 
 if (!accessSecret || !refreshSecret) {
-  throw new Error("JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be set");
+  throw new Error(msg.JWT_ACCESS_SECRET_MUST_BE_SET);
 }
 
 function signAccess(payload) {

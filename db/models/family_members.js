@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 
-const PatientSchema = new mongoose.Schema(
+const FamilyMembertSchema = new mongoose.Schema(
   {
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    name: String,
-    email: { type: String },
+    name: { type: String, required: true },
+    relation: { type: String, required: true },
     phone: { type: String, default: '' },
     dateOfBirth: { type: String, default: '' },
-    bloodGroup: { type: String, default: '' },
+    bloodGroup: { type: String, required: true },
     gender: { type: String, default: '' },
     status: { type: Boolean, default: true },
-    isDeleted: { type: Boolean, default: false }
+    remark: { type: String, default: '' },
   },
   { timestamps: true }
 );
 
 module.exports = {
-  Patient: mongoose.model("Patient", PatientSchema)
+  FamilyMember: mongoose.model("FamilyMembertSchema", FamilyMembertSchema)
 };

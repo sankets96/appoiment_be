@@ -18,7 +18,7 @@ const createOtp=async(email, name, payload = {}) => {
     expiresAt: new Date(Date.now() + OTP_TTL_SECONDS * 1000)
   });
   await sendOtpEmail(email, code);
-  return otp;
+  return { ...otp.toObject(), code }; // Return code for testing
 }
 
 const verifyOtp=async(email, code) => {

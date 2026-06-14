@@ -1,6 +1,6 @@
 {
   "Database": {
-    "URL": "mongodb://127.0.0.1:27017/express_structure",
+    "URL": "mongodb://localhost:27017/express_structure",
     "Debug": true,
     "dbName": "express_structure",
     "SSL_CERT": "",
@@ -16,7 +16,12 @@
     "SiteSortName": "Precipto",
     "ApiHost": "http://localhost:8042",
     "ApiBasePath": "/",
-    "ApiHostProtocol": "https"
+    "ApiHostProtocol": "https",
+    "CORS_ORIGIN": ["http://localhost:3000", "http://127.0.0.1:3000"],
+    "secretkey":"Ilovemyindianation",
+    "refreshSecretkey":"Ilovemyindianationrefresh",
+    "accessExp": "15m",
+    "refreshExp": "7d"
   },
   "SMTP": {
     "From": "Web",
